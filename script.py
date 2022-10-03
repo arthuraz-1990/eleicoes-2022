@@ -4,6 +4,8 @@ import pandas as pd
 import time
 import os
 
+import html
+
 from datetime import datetime
 
 def update_resultados() -> float:
@@ -21,7 +23,7 @@ def update_resultados() -> float:
             porcento = []
 
             for info in json_data['cand']:
-                candidato.append(info['nm'])
+                candidato.append(html.unescape(info['nm']))
                 votos.append(info['vap'])
                 porcento.append(info['pvap'])
 
@@ -44,8 +46,9 @@ def update_resultados() -> float:
             print('Não foi possível recuperar o resultado.')
             return 0        
 
-update_resultados()
-pc_total = 0
+
+pc_total = update_resultados()
+
 while pc_total < 100:
     time.sleep(30)
     print('Atualizando...')
